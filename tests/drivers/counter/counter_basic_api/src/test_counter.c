@@ -94,6 +94,10 @@ static const struct device *const devices[] = {
 #ifdef CONFIG_COUNTER_TMR_ESP32
 	DEVS_FOR_DT_COMPAT(espressif_esp32_timer)
 #endif
+#ifdef CONFIG_COUNTER_RTC_RPI_PICO
+	DEVS_FOR_DT_COMPAT(raspberrypi_pico_rtc)
+#endif
+
 };
 
 static const struct device *const period_devs[] = {
@@ -102,6 +106,9 @@ static const struct device *const period_devs[] = {
 #endif
 #ifdef CONFIG_COUNTER_MCUX_LPC_RTC
 	DEVS_FOR_DT_COMPAT(nxp_lpc_rtc)
+#endif
+#ifdef CONFIG_COUNTER_RTC_RPI_PICO
+	DEVS_FOR_DT_COMPAT(raspberrypi_pico_rtc)
 #endif
 	DEVS_FOR_DT_COMPAT(st_stm32_rtc)
 };
