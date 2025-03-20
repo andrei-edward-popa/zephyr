@@ -8,6 +8,8 @@
 #include <wch/ch32v0/ch32v003f4p.dtsi>
 #include "ch32v003f4p6_dev_board-pinctrl.dtsi"
 
+#include <zephyr/dt-bindings/i2c/i2c.h>
+
 / {
 	model = "ch32v003f4p6_dev_board";
 	compatible = "wch,ch32v003";
@@ -48,6 +50,13 @@
 
 &gpiod {
 	status = "okay";
+};
+
+&i2c1 {
+	status = "okay";
+	clock-frequency = <I2C_BITRATE_STANDARD>;
+	pinctrl-0 = <&i2c1_default>;
+	pinctrl-names = "default";
 };
 
 &usart1 {
