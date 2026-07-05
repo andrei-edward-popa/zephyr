@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+config MDIO_RPI_PICO_PIO
+	bool "Raspberry Pi Pico PIO MDIO driver"
+	default y
+	depends on DT_HAS_RASPBERRYPI_PICO_MDIO_PIO_ENABLED
+	depends on MDIO
+	depends on PIO_RPI_PICO
