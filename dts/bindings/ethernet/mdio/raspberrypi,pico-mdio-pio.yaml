@@ -1,0 +1,8 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+description: Raspberry Pi Pico PIO MDIO controller
+
+compatible: "raspberrypi,pico-mdio-pio"
+
+include: ["mdio-controller.yaml", "raspberrypi,pico-pio-device.yaml"]
