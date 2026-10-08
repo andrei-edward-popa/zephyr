@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+config GPIO_STM8
+	bool "STM8S GPIO driver"
+	default y
+	depends on SOC_SERIES_STM8S
+	depends on DT_HAS_ST_STM8_GPIO_ENABLED
+	help
+	  Configure GPIO inputs, outputs and port operations. External interrupts
+	  support rising, falling, both edges, and low level. The hardware has
+	  no per-pin pending flags, so one interrupt pin is supported per port
+	  vector. PD7's unmaskable TLI interrupt is unsupported.

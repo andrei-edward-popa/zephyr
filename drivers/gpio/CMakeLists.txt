@@ -150,6 +150,7 @@ zephyr_library_sources_ifdef(CONFIG_LPGPIO_ESP32 gpio_esp32_lp.c)
 # zephyr-keep-sorted-start
 zephyr_library_sources_ifdef(CONFIG_GPIO_HOGS gpio_hogs.c)
 zephyr_library_sources_ifdef(CONFIG_GPIO_SHELL gpio_shell.c)
+zephyr_library_sources_ifdef(CONFIG_GPIO_STM8 gpio_stm8.c)
 zephyr_library_sources_ifdef(CONFIG_USERSPACE gpio_handlers.c)
 # zephyr-keep-sorted-stop
 
