@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+config PWM_STM8
+	bool "STM8 timer PWM"
+	default y
+	depends on SOC_SERIES_STM8S
+	depends on DT_HAS_ST_STM8_PWM_ENABLED
+	select PINCTRL
+	help
+	  Enable PWM outputs of the TIM1, TIM2 and TIM3 timers.
+	  All channels of a timer share the period and prescaler.
