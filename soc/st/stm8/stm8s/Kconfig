@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+if SOC_SERIES_STM8S
+
+config SOC_STM8S207K8
+	select STM8
+	select SOC_EARLY_INIT_HOOK
+	select CLOCK_CONTROL
+	select PINCTRL
+
+endif

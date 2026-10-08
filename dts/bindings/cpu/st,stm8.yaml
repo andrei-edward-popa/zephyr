@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+description: STMicroelectronics STM8 CPU
+compatible: "st,stm8"
+include: cpu.yaml

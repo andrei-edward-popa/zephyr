@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+family:
+  - name: stm8
+    series:
+      - name: stm8s
+        socs:
+          - name: stm8s207k8

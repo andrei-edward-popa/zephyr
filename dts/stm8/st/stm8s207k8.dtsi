@@ -1,0 +1,344 @@
+/* SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa */
+/* SPDX-License-Identifier: Apache-2.0 */
+
+#include <zephyr/dt-bindings/clock/stm8-clock.h>
+
+/ {
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		cpu0: cpu@0 {
+			compatible = "st,stm8";
+			device_type = "cpu";
+			reg = <0>;
+			clock-frequency = <16000000>;
+		};
+	};
+
+	sram0: memory@0 {
+		compatible = "mmio-sram";
+		reg = <0x0 0x1800>;
+	};
+
+	flash_controller: flash-controller@505a {
+		compatible = "st,stm8-flash-controller";
+		reg = <0x505a 0xb>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		flash0: flash@8000 {
+			compatible = "st,stm8-nv-flash", "soc-nv-flash";
+			reg = <0x8000 0x10000>;
+			write-block-size = <1>;
+			erase-block-size = <128>;
+		};
+
+		eeprom_storage: flash@4000 {
+			compatible = "st,stm8-nv-flash", "soc-nv-flash";
+			reg = <0x4000 0x400>;
+			write-block-size = <1>;
+			erase-block-size = <128>;
+			st,data-eeprom;
+		};
+	};
+
+	eeprom0: eeprom {
+		compatible = "st,stm8-eeprom";
+		flash = <&eeprom_storage>;
+	};
+
+	intc: interrupt-controller@7f70 {
+		compatible = "st,stm8-itc";
+		reg = <0x7f70 8>;
+		interrupt-controller;
+		#interrupt-cells = <2>;
+	};
+
+	clocks {
+		clk_hsi: clk-hsi {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+			clock-frequency = <16000000>;
+		};
+
+		clk_hse: clk-hse {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+			clock-frequency = <16000000>;
+			status = "disabled";
+		};
+
+		clk_lsi: clk-lsi {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+			clock-frequency = <128000>;
+		};
+	};
+
+	clk: clock-controller@50c0 {
+		compatible = "st,stm8-clock";
+		reg = <0x50c0 0xd>;
+		#clock-cells = <1>;
+		clocks = <&clk_hsi>, <&clk_hse>, <&clk_lsi>;
+		clock-names = "hsi", "hse", "lsi";
+		clock-frequency = <16000000>;
+	};
+
+	pinctrl: pin-controller {
+		compatible = "st,stm8-pinctrl";
+	};
+
+	gpioa: gpio@5000 {
+		compatible = "st,stm8-gpio";
+		reg = <0x5000 5>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		ngpios = <8>;
+		st,port-index = <0>;
+		st,pin-mask = <0x6>;
+		st,exti-mask = <0x4>;
+		interrupt-parent = <&intc>;
+		interrupts = <3 0>;
+		interrupt-names = "port";
+	};
+
+	gpiob: gpio@5005 {
+		compatible = "st,stm8-gpio";
+		reg = <0x5005 5>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		ngpios = <8>;
+		st,port-index = <1>;
+		st,pin-mask = <0x3f>;
+		st,exti-mask = <0x3f>;
+		st,true-open-drain-mask = <0x30>;
+		interrupt-parent = <&intc>;
+		interrupts = <4 0>;
+		interrupt-names = "port";
+	};
+
+	gpioc: gpio@500a {
+		compatible = "st,stm8-gpio";
+		reg = <0x500a 5>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		ngpios = <8>;
+		st,port-index = <2>;
+		st,pin-mask = <0xfe>;
+		st,exti-mask = <0xfe>;
+		interrupt-parent = <&intc>;
+		interrupts = <5 0>;
+		interrupt-names = "port";
+	};
+
+	gpiod: gpio@500f {
+		compatible = "st,stm8-gpio";
+		reg = <0x500f 5>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		ngpios = <8>;
+		st,port-index = <3>;
+		st,pin-mask = <0xff>;
+		st,exti-mask = <0x7d>;
+		gpio-reserved-ranges = <1 1>; /* SWIM */
+		interrupt-parent = <&intc>;
+		interrupts = <6 0>;
+		interrupt-names = "port";
+	};
+
+	gpioe: gpio@5014 {
+		compatible = "st,stm8-gpio";
+		reg = <0x5014 5>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		ngpios = <8>;
+		st,port-index = <4>;
+		st,pin-mask = <0x20>;
+		st,exti-mask = <0x20>;
+		interrupt-parent = <&intc>;
+		interrupts = <7 0>;
+		interrupt-names = "port";
+	};
+
+	gpiof: gpio@5019 {
+		compatible = "st,stm8-gpio";
+		reg = <0x5019 5>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		ngpios = <8>;
+		st,port-index = <5>;
+		st,pin-mask = <0x10>;
+		st,exti-mask = <0x0>;
+	};
+
+	iwdg: watchdog@50e0 {
+		compatible = "st,stm8-iwdg";
+		reg = <0x50e0 3>;
+		clocks = <&clk STM8_CLOCK_LSI>;
+		status = "disabled";
+	};
+
+	wwdg: watchdog@50d1 {
+		compatible = "st,stm8-wwdg";
+		reg = <0x50d1 2>;
+		clocks = <&clk STM8_CLOCK_CPU>;
+		status = "disabled";
+	};
+
+	beep: beeper@50f3 {
+		compatible = "st,stm8-beep";
+		reg = <0x50f3 1>;
+		clocks = <&clk STM8_CLOCK_LSI>;
+		status = "disabled";
+	};
+
+	tim1: timer@5250 {
+		compatible = "st,stm8-timer";
+		reg = <0x5250 0x20>;
+		clocks = <&clk STM8_CLOCK_TIM1>;
+		interrupt-parent = <&intc>;
+		interrupts = <11 0>, <12 0>;
+		interrupt-names = "update", "cc";
+		st,timer-id = <1>;
+		st,prescaler = <64>;
+		status = "disabled";
+
+		counter1: counter {
+			compatible = "st,stm8-counter";
+			#counter-capture-cells = <2>;
+			status = "disabled";
+		};
+
+		pwm1: pwm {
+			compatible = "st,stm8-pwm";
+			#pwm-cells = <3>;
+			status = "disabled";
+		};
+	};
+
+	tim2: timer@5300 {
+		compatible = "st,stm8-timer";
+		reg = <0x5300 0x15>;
+		clocks = <&clk STM8_CLOCK_TIM2>;
+		interrupt-parent = <&intc>;
+		interrupts = <13 0>, <14 0>;
+		interrupt-names = "update", "cc";
+		st,timer-id = <2>;
+		st,prescaler = <64>;
+		status = "disabled";
+
+		counter2: counter {
+			compatible = "st,stm8-counter";
+			#counter-capture-cells = <2>;
+			status = "disabled";
+		};
+
+		pwm2: pwm {
+			compatible = "st,stm8-pwm";
+			#pwm-cells = <3>;
+			status = "disabled";
+		};
+	};
+
+	tim3: timer@5320 {
+		compatible = "st,stm8-timer";
+		reg = <0x5320 0x11>;
+		clocks = <&clk STM8_CLOCK_TIM3>;
+		interrupt-parent = <&intc>;
+		interrupts = <15 0>, <16 0>;
+		interrupt-names = "update", "cc";
+		st,timer-id = <3>;
+		st,prescaler = <64>;
+		status = "disabled";
+
+		counter3: counter {
+			compatible = "st,stm8-counter";
+			#counter-capture-cells = <2>;
+			status = "disabled";
+		};
+
+		pwm3: pwm {
+			compatible = "st,stm8-pwm";
+			#pwm-cells = <3>;
+			status = "disabled";
+		};
+	};
+
+	tim4: timer@5340 {
+		compatible = "st,stm8-tim4", "st,stm8-timer";
+		reg = <0x5340 7>;
+		clocks = <&clk STM8_CLOCK_TIM4>;
+		interrupt-parent = <&intc>;
+		interrupts = <23 0>;
+		interrupt-names = "update";
+		st,timer-id = <4>;
+		st,prescaler = <64>;
+		st,system-timer;
+
+		counter4: counter {
+			compatible = "st,stm8-counter";
+			#counter-capture-cells = <2>;
+			status = "disabled";
+		};
+	};
+
+	spi: spi@5200 {
+		compatible = "st,stm8-spi";
+		reg = <0x5200 8>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		interrupt-parent = <&intc>;
+		interrupts = <10 0>;
+		clocks = <&clk STM8_CLOCK_SPI>;
+		status = "disabled";
+	};
+
+	i2c: i2c@5210 {
+		compatible = "st,stm8-i2c";
+		reg = <0x5210 0xf>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		interrupt-parent = <&intc>;
+		interrupts = <19 0>;
+		clocks = <&clk STM8_CLOCK_I2C>;
+		clock-frequency = <100000>;
+		status = "disabled";
+	};
+
+	adc2: adc@5400 {
+		compatible = "st,stm8-adc";
+		reg = <0x5400 8>;
+		#io-channel-cells = <1>;
+		clocks = <&clk STM8_CLOCK_ADC>;
+		interrupt-parent = <&intc>;
+		interrupts = <22 0>;
+		st,channel-mask = <0x103f>;
+		status = "disabled";
+	};
+
+	uart1: serial@5230 {
+		compatible = "st,stm8-uart";
+		reg = <0x5230 0xb>;
+		interrupt-parent = <&intc>;
+		interrupts = <17 0>, <18 0>;
+		interrupt-names = "tx", "rx";
+		clocks = <&clk STM8_CLOCK_UART1>;
+		current-speed = <115200>;
+		status = "disabled";
+	};
+
+	uart3: serial@5240 {
+		compatible = "st,stm8-uart";
+		reg = <0x5240 0xa>;
+		interrupt-parent = <&intc>;
+		interrupts = <20 0>, <21 0>;
+		interrupt-names = "tx", "rx";
+		clocks = <&clk STM8_CLOCK_UART3>;
+		current-speed = <115200>;
+		status = "disabled";
+	};
+};
