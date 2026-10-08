@@ -62,7 +62,7 @@ struct rbnode {
 	/** @cond INTERNAL_HIDDEN */
 	struct rbnode *children[2];
 	/** @endcond */
-};
+} __aligned(2);
 
 /* Theoretical maximum depth of tree based on pointer size. If memory
  * is filled with 2-pointer nodes, and the tree can be twice as a
