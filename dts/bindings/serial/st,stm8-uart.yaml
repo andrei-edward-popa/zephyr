@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+description: STM8 UART1 and UART3
+compatible: "st,stm8-uart"
+include: [uart-controller.yaml, pinctrl-device.yaml]
+properties:
+  reg:
+    required: true
+  clocks:
+    required: true
+  pinctrl-0:
+    required: true
+  pinctrl-names:
+    required: true
+  current-speed:
+    required: true
+  interrupts:
+    required: true
+  interrupt-names:
+    required: true

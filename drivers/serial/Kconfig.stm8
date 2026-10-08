@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+config UART_STM8
+	bool "STM8 UART driver"
+	default y
+	depends on SOC_SERIES_STM8S
+	depends on DT_HAS_ST_STM8_UART_ENABLED
+	select CLOCK_CONTROL
+	select PINCTRL
+	select SERIAL_HAS_DRIVER
+	select SERIAL_SUPPORT_INTERRUPT
+	help
+	  UART1 and UART3 polling and interrupt-driven transmit and receive,
+	  Includes runtime baud rate, parity, data bit and stop bit configuration,
+	  FIFO access, callbacks and receive error reporting.
