@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+config SPI_STM8
+	bool "STM8S SPI driver"
+	default y
+	depends on DT_HAS_ST_STM8_SPI_ENABLED
+	depends on MULTITHREADING
+	select PINCTRL
+	depends on CLOCK_CONTROL
+	help
+	  Enable the STM8S interrupt driven SPI controller and peripheral driver.
+	  Peripheral mode uses a pinctrl state named "peripheral" and supports
+	  hardware NSS or software selection for fixed-length transfers.

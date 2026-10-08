@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+description: STM8S SPI controller and peripheral
+compatible: "st,stm8-spi"
+include: [spi-controller.yaml, pinctrl-device.yaml]
+properties:
+  reg:
+    required: true
+  interrupts:
+    required: true
+  clocks:
+    required: true
+  pinctrl-0:
+    required: true
+  pinctrl-names:
+    required: true
+  st,software-nss:
+    type: boolean
+    description: |
+      Select the peripheral internally instead of using the hardware NSS input.
+      The peripheral stays selected for the fixed-length transfer requested by
+      the application. Ignored in controller mode.
