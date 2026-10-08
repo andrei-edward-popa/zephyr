@@ -5,6 +5,7 @@
  */
 #include <zephyr/sys/sys_heap.h>
 #include <zephyr/sys/util.h>
+#include <zephyr/sys/math_extras.h>
 #include <zephyr/kernel.h>
 #include "heap.h"
 
@@ -63,7 +64,7 @@ static bool rand_alloc_choice(struct z_heap_stress_rec *sr)
 		 * though!).
 		 */
 		__ASSERT(sr->total_bytes < 0xffffffffU / 100, "too big for u32!");
-		uint32_t full_pct = (100 * sr->bytes_alloced) / sr->total_bytes;
+		uint32_t full_pct = (100UL * sr->bytes_alloced) / sr->total_bytes;
 		uint32_t target = sr->target_percent ? sr->target_percent : 1;
 		uint32_t free_chance = 0xffffffffU;
 
@@ -85,9 +86,9 @@ static size_t rand_alloc_size(struct z_heap_stress_rec *sr)
 	/* Min scale of 4 means that the half of the requests in the
 	 * smallest size have an average size of 8
 	 */
-	int scale = 4 + __builtin_clz(rand32());
+	uint32_t scale = MIN(4U + u32_count_leading_zeros(rand32()), 32U);
 
-	return rand32() & BIT_MASK(scale);
+	return rand32() & (UINT32_MAX >> (32U - scale));
 }
 
 /* Returns the index of a randomly chosen block to free */

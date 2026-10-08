@@ -8,6 +8,7 @@
 #define ZEPHYR_INCLUDE_LIB_OS_HEAP_H_
 
 #include <zephyr/sys/minmax.h>
+#include <zephyr/sys/math_extras.h>
 
 /*
  * Internal heap APIs
@@ -352,7 +353,8 @@ static inline size_t mem_align_gap(struct z_heap *h, void *mem)
 static inline int bucket_idx(struct z_heap *h, chunksz_t sz)
 {
 	unsigned int usable_sz = sz - min_chunk_size(h) + 1;
-	return 31 - __builtin_clz(usable_sz);
+
+	return 31 - u32_count_leading_zeros(usable_sz);
 }
 
 static inline void get_alloc_info(struct z_heap *h, size_t *alloc_bytes,
