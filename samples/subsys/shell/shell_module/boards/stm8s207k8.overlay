@@ -1,0 +1,6 @@
+/* SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa */
+/* SPDX-License-Identifier: Apache-2.0 */
+
+&uart3 {
+	current-speed = <115200>;
+};
