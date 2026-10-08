@@ -4,7 +4,6 @@ zephyr_library()
 zephyr_library_sources(sys_clock_init.c)
 zephyr_library_sources_ifndef(CONFIG_SYSTEM_TIMER_LPM_COMPANION_NONE sys_lpm_hooks_stubs.c)
 
-zephyr_library_include_directories(${ZEPHYR_BASE}/drivers/counter)
 # zephyr-keep-sorted-start
 zephyr_library_sources_ifdef(CONFIG_AMBIQ_STIMER_TIMER ambiq_stimer.c)
 zephyr_library_sources_ifdef(CONFIG_AMD_TMRCTR amd_tmrctr.c)
@@ -64,6 +63,7 @@ zephyr_library_sources_ifdef(CONFIG_SILABS_SLEEPTIMER_TIMER silabs_sleeptimer_ti
 zephyr_library_sources_ifdef(CONFIG_SMARTBOND_TIMER smartbond_timer.c)
 zephyr_library_sources_ifdef(CONFIG_STM32WB0_RADIO_TIMER stm32wb0_radio_timer.c)
 zephyr_library_sources_ifdef(CONFIG_STM32_LPTIM_TIMER stm32_lptim_timer.c)
+zephyr_library_sources_ifdef(CONFIG_STM8_TIM4_TIMER stm8_tim4.c)
 zephyr_library_sources_ifdef(CONFIG_SY1XX_SYS_TIMER sy1xx_sys_timer.c)
 zephyr_library_sources_ifdef(CONFIG_SYSTEM_TIMER_LPM_COMPANION_COUNTER sys_lpm_hooks_counter.c)
 zephyr_library_sources_ifdef(CONFIG_TI_DM_TIMER ti_dmtimer.c)

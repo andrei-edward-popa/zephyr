@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+description: STM8 TIM4 periodic system timer
+compatible: "st,stm8-tim4"
+include: st,stm8-timer.yaml
