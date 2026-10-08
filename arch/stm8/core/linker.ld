@@ -8,13 +8,16 @@
 
 #define ROMABLE_REGION ROM
 #define RAMABLE_REGION RAM
+/* STM8 has no MPU; RAM functions follow the byte-aligned ABI. */
+#define MPU_ALIGN(size) . = ALIGN(1)
 
 /* ROM contains code and constant tables; initialized RAM has a flash LMA. */
 PHDRS
 {
 	rom_constants PT_LOAD FLAGS(5);
 	stacks PT_LOAD FLAGS(6);
-	ram_data PT_LOAD FLAGS(6);
+/* Initialized RAM also contains executable RAM functions. */
+	ram_data PT_LOAD FLAGS(7);
 	rom_text PT_LOAD FLAGS(5);
 	ram_bss PT_LOAD FLAGS(6);
 	irq_metadata PT_LOAD FLAGS(4);
@@ -75,6 +78,11 @@ SECTIONS
 	__data_region_num_bytes = __data_region_end - __data_region_start;
 	PROVIDE(___data_region_num_bytes = __data_region_num_bytes);
 	__near_flash_end = __data_region_load_start + __data_region_num_bytes;
+	PROVIDE(___ramfunc_region_start = __ramfunc_region_start);
+	PROVIDE(___ramfunc_start = __ramfunc_start);
+	PROVIDE(___ramfunc_end = __ramfunc_end);
+	PROVIDE(___ramfunc_size = __ramfunc_size);
+	PROVIDE(___ramfunc_load_start = __ramfunc_load_start);
 	.text : { *(.text.startup) *(.text .text.*) } > ROM :rom_text
 	PLACE_SYMBOL_HERE(__rom_region_end);
 	.bss (NOLOAD) :

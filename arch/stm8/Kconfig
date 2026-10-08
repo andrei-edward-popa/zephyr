@@ -4,13 +4,6 @@
 menu "STM8 architecture options"
 	depends on STM8
 
-config STM8_CONSOLE_TRACE
-	bool "Capture console output in RAM"
-	help
-	  Retain the last 256 console bytes and a byte counter for debugger
-	  inspection during board bring-up. UART output is independent of this
-	  diagnostic trace.
-
 config ARCH
 	default "stm8"
 

@@ -74,8 +74,8 @@
 #elif defined(CONFIG_STM8)
 /* Keep stacks below the hardware stack roll-over limit. */
 #define __incoherent
-#define __stackmem Z_GENERIC_SECTION(.stm8_stacks)
-#define __kstackmem Z_GENERIC_SECTION(.stm8_stacks)
+#define __stackmem __in_section_unique(stm8_stacks)
+#define __kstackmem __in_section_unique(stm8_stacks)
 #else
 #define __incoherent
 #define __stackmem Z_GENERIC_SECTION(.user_stacks)

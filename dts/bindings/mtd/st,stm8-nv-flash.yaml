@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+description: STM8 internal program Flash or data EEPROM
+compatible: "st,stm8-nv-flash"
+include: soc-nv-flash.yaml
+
+properties:
+  reg:
+    required: true
+  erase-block-size:
+    required: true
+  write-block-size:
+    required: true
+  st,data-eeprom:
+    type: boolean
+    description: Use the data EEPROM unlock sequence instead of program Flash
