@@ -6,6 +6,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+#include <limits.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <zephyr/sys/cbprintf.h>
@@ -57,7 +58,7 @@ int sprintf(char *ZRESTRICT str, const char *ZRESTRICT format, ...)
 	int     r;
 
 	p.ptr = str;
-	p.len = (int) 0x7fffffff; /* allow up to "maxint" characters */
+	p.len = INT_MAX; /* allow up to "maxint" characters */
 
 	va_start(vargs, format);
 	r = cbvprintf((cbprintf_cb)sprintf_out, (void *) (&p), format, vargs);
@@ -94,7 +95,7 @@ int vsprintf(char *ZRESTRICT str, const char *ZRESTRICT format,
 	int     r;
 
 	p.ptr = str;
-	p.len = (int) 0x7fffffff; /* allow up to "maxint" characters */
+	p.len = INT_MAX; /* allow up to "maxint" characters */
 
 	r = cbvprintf((cbprintf_cb)sprintf_out, (void *) (&p), format, vargs);
 

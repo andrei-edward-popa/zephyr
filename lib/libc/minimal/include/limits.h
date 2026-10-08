@@ -46,7 +46,9 @@ extern "C" {
 #define LONG_MIN	(-LONG_MAX - 1L)
 #define LLONG_MIN	(-LLONG_MAX - 1LL)
 
-#if __SIZE_MAX__ == __UINT32_MAX__
+#if __SIZE_MAX__ == __UINT16_MAX__
+#define SSIZE_MAX	__INT16_MAX__
+#elif __SIZE_MAX__ == __UINT32_MAX__
 #define SSIZE_MAX	__INT32_MAX__
 #elif __SIZE_MAX__ == __UINT64_MAX__
 #define SSIZE_MAX	__INT64_MAX__
@@ -60,7 +62,9 @@ extern "C" {
 #error "unexpected __SIZEOF_SHORT__ value"
 #endif
 
-#if __SIZEOF_INT__ == 4
+#if __SIZEOF_INT__ == 2
+#define UINT_MAX	0xFFFFU
+#elif __SIZEOF_INT__ == 4
 #define UINT_MAX	0xFFFFFFFFU
 #else
 #error "unexpected __SIZEOF_INT__ value"
