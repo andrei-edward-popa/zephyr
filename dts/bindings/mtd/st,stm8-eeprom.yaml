@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+description: STM8 data EEPROM interface backed by the shared Flash controller
+compatible: "st,stm8-eeprom"
+include: base.yaml
+
+properties:
+  flash:
+    type: phandle
+    required: true
+    description: Data EEPROM storage node managed by the STM8 Flash driver

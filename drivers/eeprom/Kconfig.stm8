@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+config EEPROM_STM8
+	bool "STM8 internal data EEPROM"
+	default y
+	depends on STM8
+	depends on DT_HAS_ST_STM8_EEPROM_ENABLED
+	select FLASH
+	help
+	  Expose STM8 data EEPROM through the EEPROM API, using the shared
+	  Flash controller for serialization and programming.
