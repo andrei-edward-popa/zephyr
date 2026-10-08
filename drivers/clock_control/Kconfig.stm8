@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+config CLOCK_CONTROL_STM8
+	bool "STM8S clock control driver"
+	default y
+	depends on SOC_SERIES_STM8S
+	depends on DT_HAS_ST_STM8_CLOCK_ENABLED
+	help
+	  Control peripheral clock gates and report clock rates. The SoC early
+	  initialization hook configures the HSI and CPU dividers. Supports HSI,
+	  HSE and LSI oscillator control and boot clock source selection.
+
+config CLOCK_CONTROL_STM8_RUNTIME
+	bool "STM8 runtime clock configuration"
+	depends on CLOCK_CONTROL_STM8
+	help
+	  Enable source switching and rate changes through clock_control_configure
+	  and clock_control_set_rate. Update the system timer and idle peripherals
+	  when the master clock changes; reject changes during active transfers.
