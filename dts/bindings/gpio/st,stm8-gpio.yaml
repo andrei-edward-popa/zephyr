@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+description: STM8S eight-bit GPIO port
+compatible: "st,stm8-gpio"
+include: [gpio-controller.yaml, base.yaml]
+
+properties:
+  reg:
+    required: true
+  "#gpio-cells":
+    const: 2
+  st,port-index:
+    type: int
+    required: true
+    enum: [0, 1, 2, 3, 4, 5]
+    description: GPIO port number, starting with port A
+  st,exti-mask:
+    type: int
+    default: 0
+    description: Pins supporting the normal port external interrupt
+  st,pin-mask:
+    type: int
+    required: true
+    description: Pins bonded in this package
+  st,true-open-drain-mask:
+    type: int
+    default: 0
+    description: Pins without a P-buffer or internal pull-up
+
+gpio-cells:
+  - pin
+  - flags
