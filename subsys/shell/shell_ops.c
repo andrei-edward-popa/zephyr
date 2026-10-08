@@ -5,6 +5,7 @@
  */
 
 #include <ctype.h>
+#include <inttypes.h>
 #include "shell_ops.h"
 
 #define CMD_CURSOR_LEN 8
@@ -20,7 +21,7 @@ void z_shell_op_cursor_vert_move(const struct shell *sh, int32_t delta)
 		delta = -delta;
 	}
 
-	Z_SHELL_VT100_CMD(sh, "\e[%d%c", delta, dir);
+	Z_SHELL_VT100_CMD(sh, "\e[%" PRId32 "%c", delta, dir);
 }
 
 void z_shell_op_cursor_horiz_move(const struct shell *sh, int32_t delta)
@@ -35,7 +36,7 @@ void z_shell_op_cursor_horiz_move(const struct shell *sh, int32_t delta)
 		delta = -delta;
 	}
 
-	Z_SHELL_VT100_CMD(sh, "\e[%d%c", delta, dir);
+	Z_SHELL_VT100_CMD(sh, "\e[%" PRId32 "%c", delta, dir);
 }
 
 /* Function returns true if command length is equal to multiplicity of terminal
