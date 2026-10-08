@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+name: STM8S207K8 development board
+arch: stm8
+type: mcu
+ram: 6
+flash: 64
+toolchain:
+  - cross-compile
+supported:
+  - gpio
+  - uart
+  - counter
+  - spi
+  - i2c

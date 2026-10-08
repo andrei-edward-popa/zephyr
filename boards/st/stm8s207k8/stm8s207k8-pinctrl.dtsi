@@ -1,0 +1,114 @@
+/* SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa */
+/* SPDX-License-Identifier: Apache-2.0 */
+
+#include <zephyr/dt-bindings/pinctrl/stm8-pinctrl.h>
+
+&pinctrl {
+	tim3_default: tim3-default {
+		group1 {
+			pinmux = <STM8_PINMUX(STM8_PORT_D, 2)>,
+				 <STM8_PINMUX(STM8_PORT_D, 0)>;
+			output-low;
+			drive-push-pull;
+			slew-rate = <1>;
+		};
+	};
+
+	tim2_default: tim2-default {
+		group1 {
+			pinmux = <STM8_PINMUX(STM8_PORT_D, 4)>,
+				 <STM8_PINMUX(STM8_PORT_D, 3)>;
+			output-low;
+			drive-push-pull;
+			slew-rate = <1>;
+		};
+	};
+
+	tim1_default: tim1-default {
+		group1 {
+			pinmux = <STM8_PINMUX(STM8_PORT_C, 1)>,
+				 <STM8_PINMUX(STM8_PORT_C, 2)>;
+			output-low;
+			drive-push-pull;
+			slew-rate = <1>;
+		};
+	};
+
+	beep_default: beep-default {
+		group1 {
+			pinmux = <STM8_PINMUX(STM8_PORT_D, 4)>;
+			output-low;
+			drive-push-pull;
+			st,remap-mask = <STM8_PINCTRL_AFR7_BEEP>;
+			st,remap-value = <STM8_PINCTRL_AFR7_BEEP>;
+		};
+	};
+
+	adc2_default: adc2-default {
+		group1 {
+			pinmux = <STM8_PINMUX(STM8_PORT_B, 0)>,
+				 <STM8_PINMUX(STM8_PORT_B, 1)>;
+			input-enable;
+			bias-disable;
+		};
+	};
+
+	uart3_default: uart3-default {
+		group1 {
+			pinmux = <STM8_PINMUX(STM8_PORT_D, 5)>;
+			output-high;
+			drive-push-pull;
+			slew-rate = <1>;
+		};
+
+		group2 {
+			pinmux = <STM8_PINMUX(STM8_PORT_D, 6)>;
+			input-enable;
+			bias-disable;
+		};
+	};
+
+	spi_default: spi-default {
+		group1 {
+			pinmux = <STM8_PINMUX(STM8_PORT_C, 5)>,
+				 <STM8_PINMUX(STM8_PORT_C, 6)>;
+			output-low;
+			drive-push-pull;
+			slew-rate = <1>;
+		};
+
+		group2 {
+			pinmux = <STM8_PINMUX(STM8_PORT_C, 7)>;
+			input-enable;
+			bias-disable;
+		};
+	};
+
+	i2c_default: i2c-default {
+		group1 {
+			pinmux = <STM8_PINMUX(STM8_PORT_B, 4)>,
+				 <STM8_PINMUX(STM8_PORT_B, 5)>;
+			output-high;
+			drive-open-drain;
+			slew-rate = <1>;
+			st,remap-mask = <STM8_PINCTRL_AFR6_I2C>;
+			st,remap-value = <STM8_PINCTRL_AFR6_I2C>;
+		};
+	};
+
+	spi_peripheral: spi-peripheral {
+		group1 {
+			pinmux = <STM8_PINMUX(STM8_PORT_C, 5)>,
+				 <STM8_PINMUX(STM8_PORT_C, 6)>;
+			input-enable;
+			bias-disable;
+		};
+
+		group2 {
+			pinmux = <STM8_PINMUX(STM8_PORT_C, 7)>;
+			output-low;
+			drive-push-pull;
+			slew-rate = <1>;
+		};
+	};
+};

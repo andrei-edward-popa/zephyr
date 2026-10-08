@@ -1,0 +1,37 @@
+/* SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa */
+/* SPDX-License-Identifier: Apache-2.0 */
+
+/dts-v1/;
+#include <st/stm8s207k8.dtsi>
+#include <zephyr/dt-bindings/gpio/gpio.h>
+#include "stm8s207k8-pinctrl.dtsi"
+
+/ {
+	model = "STM8S207K8 development board";
+	compatible = "st,stm8s207k8";
+	chosen {
+		zephyr,sram = &sram0;
+		zephyr,flash = &flash0;
+		zephyr,console = &uart3;
+		zephyr,shell-uart = &uart3;
+	};
+};
+
+&uart3 {
+	status = "okay";
+	pinctrl-0 = <&uart3_default>;
+	pinctrl-names = "default";
+};
+
+&spi {
+	pinctrl-0 = <&spi_default>;
+	pinctrl-1 = <&spi_peripheral>;
+	pinctrl-names = "default", "peripheral";
+};
+
+&i2c {
+	pinctrl-0 = <&i2c_default>;
+	pinctrl-names = "default";
+	scl-gpios = <&gpiob 4 GPIO_ACTIVE_HIGH>;
+	sda-gpios = <&gpiob 5 GPIO_ACTIVE_HIGH>;
+};

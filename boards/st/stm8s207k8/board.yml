@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+board:
+  name: stm8s207k8
+  full_name: STM8S207K8 development board
+  vendor: st
+  socs:
+    - name: stm8s207k8
