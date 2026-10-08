@@ -23,6 +23,9 @@ archs:
   - name: sparc
     path: sparc
     full_name: SPARC
+  - name: stm8
+    path: stm8
+    full_name: STMicroelectronics STM8
   - name: xtensa
     path: xtensa
     full_name: Xtensa
