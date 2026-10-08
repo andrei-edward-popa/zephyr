@@ -35,7 +35,7 @@ static ALWAYS_INLINE unsigned int find_msb_set(uint32_t op)
 		return 0;
 	}
 
-	return 32 - __builtin_clz(op);
+	return __CHAR_BIT__ * sizeof(unsigned long) - __builtin_clzl((unsigned long)op);
 }
 
 
@@ -54,7 +54,7 @@ static ALWAYS_INLINE unsigned int find_msb_set(uint32_t op)
 static ALWAYS_INLINE unsigned int find_lsb_set(uint32_t op)
 {
 #ifdef CONFIG_TOOLCHAIN_HAS_BUILTIN_FFS
-	return __builtin_ffs(op);
+	return __builtin_ffsl((unsigned long)op);
 
 #else
 	/*

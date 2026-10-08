@@ -786,8 +786,10 @@ static inline int64_t sign_extend_64(uint64_t value, uint8_t index)
 	return (int64_t)(value << shift) >> shift;
 }
 
-#define __z_log2d(x) (32 - __builtin_clz(x) - 1)
-#define __z_log2q(x) (64 - __builtin_clzll(x) - 1)
+#define __z_log2d(x) ((int)(__CHAR_BIT__ * sizeof(unsigned long)) - \
+		     __builtin_clzl((unsigned long)(x)) - 1)
+#define __z_log2q(x) ((int)(__CHAR_BIT__ * sizeof(unsigned long long)) - \
+		     __builtin_clzll((unsigned long long)(x)) - 1)
 #define __z_log2(x)  (sizeof(__typeof__(x)) > 4 ? __z_log2q(x) : __z_log2d(x))
 
 /**
