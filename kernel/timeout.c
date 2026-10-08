@@ -56,7 +56,7 @@ static inline bool any_cpu_announcing(void)
  */
 static struct _timeout *inflight_timeout;
 
-#define INFLIGHT_SUPERSEDED_BIT 1UL
+#define INFLIGHT_SUPERSEDED_BIT ((uintptr_t)1)
 
 static inline struct _timeout *inflight_ptr(void)
 {
