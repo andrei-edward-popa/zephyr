@@ -14,6 +14,7 @@ zephyr_library_sources_ifdef(CONFIG_I2C_GPIO i2c_gpio.c)
 zephyr_library_sources_ifdef(CONFIG_I2C_RTIO i2c_rtio.c i2c_rtio_default.c)
 
 zephyr_library_sources_ifdef(CONFIG_I2C_SHELL i2c_shell.c)
+zephyr_library_sources_ifdef(CONFIG_I2C_STM8 i2c_stm8.c)
 zephyr_library_sources_ifdef(CONFIG_I2C_TEST i2c_test.c)
 zephyr_library_sources_ifdef(CONFIG_USERSPACE i2c_handlers.c)
 # zephyr-keep-sorted-stop

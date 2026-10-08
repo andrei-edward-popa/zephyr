@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+config I2C_STM8
+	bool "STM8S I2C driver"
+	default y
+	depends on DT_HAS_ST_STM8_I2C_ENABLED
+	depends on MULTITHREADING
+	select PINCTRL
+	depends on CLOCK_CONTROL
+	help
+	  Enable the STM8S interrupt driven I2C controller and target driver.
+	  Controller mode supports 7-bit and 10-bit addresses. Bus recovery
+	  requires GPIO support and scl-gpios/sda-gpios devicetree properties.
+	  Target mode supports one 7-bit or 10-bit address with byte callbacks.
