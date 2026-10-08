@@ -131,6 +131,11 @@ void z_sched_cpu_usage(uint8_t cpu_id, struct k_thread_runtime_stats *stats)
 	uint32_t pending = 0U;
 	bool pending_is_idle = false;
 
+	if (cpu_id >= arch_num_cpus()) {
+		__ASSERT(false, "Invalid CPU index");
+		return;
+	}
+
 	key = k_spin_lock(&usage_lock);
 	cpu = &_kernel.cpus[cpu_id];
 
