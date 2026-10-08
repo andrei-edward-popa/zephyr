@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+description: STM8 interrupt priority controller
+compatible: "st,stm8-itc"
+include: [base.yaml, interrupt-controller.yaml]
+interrupt-cells:
+  - irq
+  - priority

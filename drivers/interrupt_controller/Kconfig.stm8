@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+config INTC_STM8
+	bool "STM8 interrupt controller"
+	default y
+	depends on STM8 && DT_HAS_ST_STM8_ITC_ENABLED
+	help
+	  Manage STM8 interrupt priorities. Peripheral drivers register their
+	  vector mask operation because ITC has no per-vector enable registers.
