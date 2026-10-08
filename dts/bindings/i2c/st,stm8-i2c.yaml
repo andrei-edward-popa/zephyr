@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+description: STM8S I2C controller
+compatible: "st,stm8-i2c"
+include: [i2c-controller.yaml, pinctrl-device.yaml]
+properties:
+  reg:
+    required: true
+  interrupts:
+    required: true
+  clocks:
+    required: true
+  pinctrl-0:
+    required: true
+  pinctrl-names:
+    required: true
+  scl-gpios:
+    type: phandle-array
+    description: SCL GPIO used for bus recovery; requires sda-gpios.
+  sda-gpios:
+    type: phandle-array
+    description: SDA GPIO used for bus recovery; requires scl-gpios.
