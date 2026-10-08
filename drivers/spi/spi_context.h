@@ -180,7 +180,8 @@ static inline void spi_context_release(struct spi_context *ctx, int status)
 #endif /* CONFIG_SPI_PERIPHERAL */
 
 #ifdef CONFIG_SPI_ASYNC
-	if (!ctx->asynchronous || (status < 0)) {
+	if (status < 0 || (!ctx->asynchronous &&
+			  (ctx->config == NULL || (ctx->config->operation & SPI_LOCK_ON) == 0U))) {
 		ctx->owner = NULL;
 		k_sem_give(&ctx->lock);
 	}
