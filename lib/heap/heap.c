@@ -429,7 +429,7 @@ static chunkid_t alloc_chunk(struct z_heap *h, chunksz_t sz)
 	uint32_t bmask = h->avail_buckets & ~BIT_MASK(bi + 1);
 
 	if (bmask != 0U) {
-		int minbucket = __builtin_ctz(bmask);
+		int minbucket = u32_count_trailing_zeros(bmask);
 		chunkid_t c = h->buckets[minbucket].next;
 
 		free_chunk_check(h, c, false);
@@ -538,8 +538,9 @@ void *sys_heap_aligned_alloc(struct sys_heap *heap, size_t align, size_t bytes)
 	uint8_t *mem = chunk_mem(h, c0);
 
 	/* Align allocated memory */
-	mem = (uint8_t *) ROUND_UP(mem + rew, align) - rew;
-	chunk_unit_t *end = (chunk_unit_t *) ROUND_UP(mem + bytes, CHUNK_UNIT);
+	mem = (uint8_t *)(uintptr_t)ROUND_UP((uintptr_t)(mem + rew), align) - rew;
+	chunk_unit_t *end =
+		(chunk_unit_t *)(uintptr_t)ROUND_UP((uintptr_t)(mem + bytes), CHUNK_UNIT);
 
 	/* Get corresponding chunks */
 	chunkid_t c = mem_to_chunkid(h, mem);
@@ -847,8 +848,8 @@ void sys_heap_init(struct sys_heap *heap, void *mem, size_t bytes)
 	bytes -= heap_footer_bytes(bytes);
 
 	/* Round the start up, the end down */
-	uintptr_t addr = ROUND_UP(mem, CHUNK_UNIT);
-	uintptr_t end = ROUND_DOWN((uint8_t *)mem + bytes, CHUNK_UNIT);
+	uintptr_t addr = ROUND_UP((uintptr_t)mem, CHUNK_UNIT);
+	uintptr_t end = ROUND_DOWN((uintptr_t)mem + bytes, CHUNK_UNIT);
 	chunksz_t heap_sz = (end - addr) / CHUNK_UNIT;
 
 	CHECK(end > addr);

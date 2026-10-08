@@ -28,7 +28,7 @@ static size_t largest_free_block_scan(struct z_heap *h)
 		return 0;
 	}
 
-	int bidx = 31 - __builtin_clz(h->avail_buckets);
+	int bidx = 31 - u32_count_leading_zeros(h->avail_buckets);
 	chunkid_t first = h->buckets[bidx].next;
 	chunkid_t c = first;
 	size_t largest = 0;
