@@ -63,9 +63,8 @@ peripherals update their configuration when the clock changes.
 ``sys_reboot()`` resets the system through WWDG. The SoC has no individual
 peripheral reset lines and therefore no reset-controller device. Hwinfo exposes
 the 96-bit factory UID and the reset causes recorded by RST_SR; power-on and pin reset causes
-cannot be distinguished. OpenOCD sets SWIM_CSR.SAFE_MASK, which masks watchdog
-resets; clear it when testing reset and account for the debugger's reset-vector
-stall (UM0470).
+cannot be distinguished. During debug, OpenOCD sets SWIM_CSR.SAFE_MASK, which
+masks watchdog resets; clear it when testing watchdog reset.
 
 Timers
 ******
@@ -132,6 +131,45 @@ The board defaults to the stm8flash runner and the stlinkv21 programmer. USB
 permissions must permit ST-Link access. RESET can be used to restart the
 application. The default console is 115200 baud, 8N1. The expected UART3
 output is ``Hello World! stm8s207k8/stm8s207k8``.
+
+Debugging
+*********
+
+The board uses the OpenOCD runner for ``west debug``, ``west attach`` and
+``west debugserver``. OpenOCD must support the ST-Link SWIM transport and the
+toolchain must provide ``stm8-unknown-elf-gdb``. For example::
+
+   west debug -d build/hello_world
+   west attach -d build/hello_world
+
+Both commands connect under reset, halting the CPU. This is required for
+reliable SWIM entry while the application is in Wait mode. ``debug`` loads
+the build's ELF image; ``attach`` leaves Flash unchanged. Consequently,
+``attach`` restarts the application rather than preserving its running state.
+Use the build directory corresponding to the programmed image. In GDB,
+``break main`` followed by ``continue`` runs from the reset vector to ``main``.
+The configuration accounts for STM8's initial stall in the ROM debug module
+by setting PC to ``0x8000``.
+
+OpenOCD leaves interrupt masking under program control during instruction
+stepping. Changing the mask in the debugger would alter the state saved by
+``irq_lock()`` and overwrite changes made by instructions such as ``SIM`` and
+``WFI``. A step can therefore enter an interrupt handler.
+
+Exit GDB with ``quit``. OpenOCD resets the MCU on shutdown with SWIM_CSR.RST
+set, releasing the persistent debug mode and its reset-vector stall. Firmware
+then runs normally and the RESET button works without unplugging USB. This
+shutdown reset is necessary because a pin reset alone does not clear SWIM_DM
+(UM0470 sections 3.10.1 and 4.3.1).
+
+For a debug session whose state must survive server shutdown, use::
+
+   west attach -d build/hello_world --cmd-pre-init "set STM8_KEEP_DEBUG_STATE 1"
+
+This suppresses only the shutdown reset; connecting still resets the CPU.
+While SWIM remains active, a subsequent pin reset can stall in the debug module.
+Run a normal debug or attach session and quit to release it. Close other
+OpenOCD instances before starting a session; only one process can own ST-Link.
 
 Shell sample
 ************
