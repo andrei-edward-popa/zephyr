@@ -98,16 +98,15 @@ static int cmd_dynamic_remove(const struct shell *sh, size_t argc,
 
 	for (uint8_t idx = 0; idx <  dynamic_cmd_cnt; idx++) {
 		if (!strcmp(dynamic_cmd_buffer[idx], argv[1])) {
-			if (idx == MAX_CMD_CNT - 1) {
-				dynamic_cmd_buffer[idx][0] = '\0';
-			} else {
+			if (idx + 1U < dynamic_cmd_cnt) {
 				memmove(dynamic_cmd_buffer[idx],
 					dynamic_cmd_buffer[idx + 1],
 					sizeof(dynamic_cmd_buffer[idx]) *
-					(dynamic_cmd_cnt - idx));
+					(dynamic_cmd_cnt - idx - 1U));
 			}
 
 			--dynamic_cmd_cnt;
+			dynamic_cmd_buffer[dynamic_cmd_cnt][0] = '\0';
 			shell_print(sh, "command removed successfully");
 			return 0;
 		}
