@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+description: STM8 TIM1, TIM2 or TIM3 PWM outputs
+compatible: "st,stm8-pwm"
+include: [pwm-controller.yaml, base.yaml, pinctrl-device.yaml]
+properties:
+  pinctrl-0:
+    required: true
+  pinctrl-names:
+    required: true
+  "#pwm-cells":
+    const: 3
+pwm-cells:
+  - channel
+  - period
+  - flags
