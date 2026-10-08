@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+config SOC_FAMILY_STM8
+	bool
+
+config SOC_SERIES_STM8S
+	bool
+	select SOC_FAMILY_STM8
+
+config SOC_STM8S207K8
+	bool
+	select SOC_SERIES_STM8S
+
+config SOC_FAMILY
+	default "stm8" if SOC_FAMILY_STM8
+
+config SOC_SERIES
+	default "stm8s" if SOC_SERIES_STM8S
+
+config SOC
+	default "stm8s207k8" if SOC_STM8S207K8

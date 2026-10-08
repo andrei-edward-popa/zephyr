@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+if SOC_SERIES_STM8S
+
+config SYS_CLOCK_HW_CYCLES_PER_SEC
+	default $(dt_node_int_prop_int,/clock-controller@50c0,clock-frequency)
+
+config MAIN_STACK_SIZE
+	default 768
+
+config IDLE_STACK_SIZE
+	default 256
+
+config SYSTEM_WORKQUEUE_STACK_SIZE
+	default 512
+
+config TIMEOUT_64BIT
+	default n
+
+choice LIBC_IMPLEMENTATION
+	default MINIMAL_LIBC
+endchoice
+
+endif
