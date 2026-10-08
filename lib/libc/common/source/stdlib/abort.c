@@ -7,7 +7,8 @@
 #include <stdlib.h>
 #include <zephyr/kernel.h>
 
-FUNC_NORETURN void abort(void)
+/* Freestanding LTO can introduce an implicit abort call during RTL expansion. */
+FUNC_NORETURN __used void abort(void)
 {
 	printk("abort()\n");
 	k_panic();
