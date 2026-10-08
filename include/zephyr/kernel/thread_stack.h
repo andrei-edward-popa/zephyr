@@ -70,7 +70,7 @@ struct __packed z_thread_stack_element {
  */
 static inline char *z_stack_ptr_align(char *ptr)
 {
-	return (char *)ROUND_DOWN(ptr, ARCH_STACK_PTR_ALIGN);
+	return (char *)(uintptr_t)ROUND_DOWN((uintptr_t)ptr, ARCH_STACK_PTR_ALIGN);
 }
 #define Z_STACK_PTR_ALIGN(ptr) ((uintptr_t)z_stack_ptr_align((char *)(ptr)))
 
