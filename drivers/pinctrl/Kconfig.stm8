@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+config PINCTRL_STM8
+	bool "STM8S pin controller driver"
+	default y
+	depends on SOC_SERIES_STM8S
+	depends on DT_HAS_ST_STM8_PINCTRL_ENABLED
+	help
+	  Configure GPIO direction, pull-up, output type and slew rate for
+	  peripheral pins. Option-byte remapping must be configured separately.

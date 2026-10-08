@@ -1,0 +1,46 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+description: |
+  STM8S GPIO electrical configuration for fixed peripheral pin mappings.
+  Pin groups contain STM8_PINMUX(port, pin) entries. Output states configure
+  direction, idle level, push-pull or open-drain drive and slew rate; input
+  states configure floating or pull-up inputs. Option-byte remapping is only
+  checked against st,remap-mask/st,remap-value and is never programmed here.
+
+compatible: "st,stm8-pinctrl"
+include: base.yaml
+
+child-binding:
+  description: STM8 pin configuration state
+  child-binding:
+    description: Pins sharing the same electrical configuration
+    include:
+      - name: pincfg-node.yaml
+        property-allowlist:
+          - bias-disable
+          - bias-pull-up
+          - drive-push-pull
+          - drive-open-drain
+          - input-enable
+          - output-enable
+          - output-low
+          - output-high
+          - slew-rate
+    properties:
+      pinmux:
+        type: array
+        required: true
+        description: GPIO port and pin, encoded with STM8_PINMUX
+      slew-rate:
+        default: 0
+        enum: [0, 1]
+        description: 0 selects the slow slope and 1 the fast slope
+      st,remap-mask:
+        type: int
+        default: 0
+        description: Required mask in the AFR option byte at 0x4803
+      st,remap-value:
+        type: int
+        default: 0
+        description: Required AFR bits selected by st,remap-mask
