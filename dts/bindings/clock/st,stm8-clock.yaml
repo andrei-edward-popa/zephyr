@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+description: STM8S oscillator selection, CPU divider and peripheral clock gates
+compatible: "st,stm8-clock"
+include: [base.yaml, clock-controller.yaml]
+
+properties:
+  reg:
+    required: true
+  clock-frequency:
+    type: int
+    required: true
+    description: Initial master clock frequency after source selection and division
+  clocks:
+    required: true
+  clock-names:
+    required: true
+    description: HSI, HSE and LSI input clocks, named hsi, hse and lsi
+  st,clock-source:
+    type: string
+    default: "hsi"
+    enum: ["hsi", "hse", "lsi"]
+    description: Initial master clock source
+  "#clock-cells":
+    const: 1
+  st,hsi-divisor:
+    type: int
+    default: 1
+    enum: [1, 2, 4, 8]
+    description: HSI divider preceding the master clock
+  st,cpu-divisor:
+    type: int
+    default: 1
+    enum: [1, 2, 4, 8, 16, 32, 64, 128]
+    description: CPU divider following the master clock
+
+clock-cells:
+  - id
