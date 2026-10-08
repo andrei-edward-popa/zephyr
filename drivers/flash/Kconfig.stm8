@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+config FLASH_STM8
+	bool "STM8 internal Flash and data EEPROM"
+	default y
+	depends on STM8
+	depends on DT_HAS_ST_STM8_NV_FLASH_ENABLED
+	select FLASH_HAS_DRIVER_ENABLED
+	select FLASH_HAS_NO_EXPLICIT_ERASE
+	select FLASH_HAS_PAGE_LAYOUT
+	help
+	  Support byte programming and block erasure of STM8 program Flash
+	  and data EEPROM, including Flash addresses above 64 KiB.

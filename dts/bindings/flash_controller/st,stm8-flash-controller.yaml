@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+description: STM8 Flash and data EEPROM controller
+compatible: "st,stm8-flash-controller"
+include: flash-controller.yaml

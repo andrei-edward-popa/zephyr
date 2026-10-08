@@ -8,6 +8,7 @@ zephyr_library_sources(
   core/switch.S
   core/cpu.c
   core/atomic.c
+  core/far_io.S
   core/irq.S
   core/irq.c
 )

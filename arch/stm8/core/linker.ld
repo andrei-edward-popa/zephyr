@@ -14,7 +14,11 @@ PHDRS
 {
 	rom_constants PT_LOAD FLAGS(5);
 	stacks PT_LOAD FLAGS(6);
+#ifdef CONFIG_FLASH_STM8
+	ram_data PT_LOAD FLAGS(7);
+#else
 	ram_data PT_LOAD FLAGS(6);
+#endif
 	rom_text PT_LOAD FLAGS(5);
 	ram_bss PT_LOAD FLAGS(6);
 	irq_metadata PT_LOAD FLAGS(4);
@@ -66,6 +70,7 @@ SECTIONS
 		PLACE_SYMBOL_HERE(__data_region_start);
 		PLACE_SYMBOL_HERE(__data_start);
 		*(.data .data.* .sdata .sdata.*)
+		*(.ramfunc .ramfunc.*)
 	} > RAM AT > ROM :ram_data
 #include <zephyr/linker/common-ram.ld>
 #include <snippets-ram-sections.ld>
