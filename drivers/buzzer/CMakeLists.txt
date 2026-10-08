@@ -5,3 +5,4 @@ zephyr_library()
 
 zephyr_library_sources_ifdef(CONFIG_BUZZER_GPIO buzzer_gpio.c)
 zephyr_library_sources_ifdef(CONFIG_BUZZER_PWM  buzzer_pwm.c)
+zephyr_library_sources_ifdef(CONFIG_BUZZER_STM8 buzzer_stm8.c)

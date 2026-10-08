@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+config BUZZER_STM8
+	bool "STM8 beeper"
+	default y
+	depends on SOC_SERIES_STM8S
+	depends on DT_HAS_ST_STM8_BEEP_ENABLED
+	select PINCTRL
+	help
+	  Enable the hardware beeper with nonblocking tones and automatic stop.
+	  The output has fixed duty and maps nonzero volume to its audible level.
+	  The LSI clock source and pin remap must match the option bytes.

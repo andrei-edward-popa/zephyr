@@ -21,5 +21,6 @@ config BUZZER_INIT_PRIORITY
 
 rsource "Kconfig.gpio"
 rsource "Kconfig.pwm"
+rsource "Kconfig.stm8"
 
 endif # BUZZER
