@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+description: STM8 hardware beeper driven by the LSI oscillator
+compatible: "st,stm8-beep"
+include: [base.yaml, pinctrl-device.yaml]
+properties:
+  reg:
+    required: true
+  clocks:
+    required: true
+  pinctrl-0:
+    required: true
+  pinctrl-names:
+    required: true
+  beep-frequency:
+    type: int
+    default: 2000
+    description: Default audible tone frequency in Hz
