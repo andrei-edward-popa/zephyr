@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+config HWINFO_STM8
+	bool "STM8S hardware information driver"
+	default y
+	depends on SOC_STM8S207K8
+	select HWINFO_HAS_DRIVER
+	help
+	  Read the 96-bit factory ID and watchdog, debug, illegal opcode and
+	  EMC reset flags. Power-on, brownout and pin resets have no cause flags.
