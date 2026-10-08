@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+description: STM8 independent watchdog
+compatible: "st,stm8-iwdg"
+include: base.yaml
+properties:
+  reg:
+    required: true
+  clocks:
+    required: true

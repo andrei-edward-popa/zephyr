@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+config WDT_IWDG_STM8
+	bool "STM8 independent watchdog"
+	default y
+	depends on SOC_SERIES_STM8S
+	depends on DT_HAS_ST_STM8_IWDG_ENABLED
+	select HAS_WDT_NO_CALLBACKS
+	help
+	  Enable the LSI-clocked watchdog. It cannot be stopped after setup.
+
+config WDT_WWDG_STM8
+	bool "STM8 window watchdog"
+	default y
+	depends on SOC_SERIES_STM8S
+	depends on DT_HAS_ST_STM8_WWDG_ENABLED
+	select HAS_WDT_NO_CALLBACKS
+	help
+	  Enable the CPU-clocked watchdog with a programmable feed window.
+	  It cannot be stopped after setup and prevents CPU clock changes.
