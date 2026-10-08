@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+description: STM8 counter and capture/compare channels
+compatible: "st,stm8-counter"
+include: [base.yaml, pinctrl-device.yaml]
+properties:
+  "#counter-capture-cells":
+    type: int
+    required: true
+    const: 2
+counter-capture-cells:
+  - channel
+  - flags

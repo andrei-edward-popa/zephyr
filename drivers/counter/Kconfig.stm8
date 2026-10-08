@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+config COUNTER_STM8
+	bool "STM8 timer counter driver"
+	default y
+	select COUNTER_SUPPORTS_CAPTURE
+	select PINCTRL
+	depends on SOC_SERIES_STM8S
+	depends on DT_HAS_ST_STM8_COUNTER_ENABLED
+	help
+	  Up-counting, overflow, compare alarms and input captures on STM8 timers.
+	  Instances reserved for the system clock are excluded.
