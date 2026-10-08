@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+config ADC_STM8
+	bool "STM8 ADC"
+	default y
+	depends on SOC_SERIES_STM8S
+	depends on DT_HAS_ST_STM8_ADC_ENABLED
+	select PINCTRL
+	help
+	  Enable interrupt-driven 10-bit conversions, software channel sequences,
+	  oversampling and synchronous or asynchronous reads on ADC2.

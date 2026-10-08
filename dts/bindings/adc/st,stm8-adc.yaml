@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+description: STM8 ten-bit successive-approximation converter
+compatible: "st,stm8-adc"
+include: [adc-controller.yaml, pinctrl-device.yaml]
+properties:
+  reg:
+    required: true
+  interrupts:
+    required: true
+  clocks:
+    required: true
+  pinctrl-0:
+    required: true
+  pinctrl-names:
+    required: true
+  st,channel-mask:
+    type: int
+    required: true
+    description: Bit mask of analog input channels bonded in the package
+  "#io-channel-cells":
+    const: 1
+io-channel-cells:
+  - input
