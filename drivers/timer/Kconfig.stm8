@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+config STM8_TIM4_TIMER
+	bool "STM8 TIM4 system timer"
+	default y
+	select TICKLESS_CAPABLE
+	depends on SOC_SERIES_STM8S
+	depends on DT_HAS_ST_STM8_TIM4_ENABLED
