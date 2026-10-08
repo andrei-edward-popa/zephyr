@@ -32,8 +32,12 @@ typedef __SIZE_TYPE__ ssize_t;
 
 #if !defined(__off_t_defined)
 #define __off_t_defined
-/* off_t is defined such that it matches the size of a pointer */
+/* Storage offsets require at least 32 bits, even with narrower pointers. */
+#if __SIZEOF_POINTER__ < 4
+typedef __INT32_TYPE__ off_t;
+#else
 typedef __INTPTR_TYPE__ off_t;
+#endif
 #endif
 
 #if !defined(__time_t_defined)
