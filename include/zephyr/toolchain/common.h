@@ -102,6 +102,8 @@
      * implemented in the same way across ARC toolchains.
      */
     #define   ALIGN(x)    .align    x
+  #elif defined(CONFIG_STM8)
+    #define   ALIGN(x)    .balign   x
   #elif defined(CONFIG_SPARC) || defined(CONFIG_TRICORE)
     #define   ALIGN(x)    .align    x
   #elif defined(CONFIG_HEXAGON)
@@ -144,6 +146,10 @@
     #define PERFOPT_ALIGN .balign 4
 
   #elif defined(CONFIG_ARCH_POSIX)
+
+  #elif defined(CONFIG_STM8)
+
+    #define PERFOPT_ALIGN .balign 1
 
   #elif defined(CONFIG_SPARC) || defined(CONFIG_TRICORE)
 

@@ -249,6 +249,19 @@ config RX
 	help
 	  Renesas RX architecture
 
+config STM8
+	bool
+	select ARCH_IS_SET
+	select BIG_ENDIAN
+	select ATOMIC_OPERATIONS_ARCH
+	select ARCH_HAS_ISR_TABLES_LOCAL_DECLARATION
+	select TOOLCHAIN_SUPPORTS_ISR_TABLES_LOCAL_DECLARATION
+	select ARCH_HAS_SINGLE_THREAD_SUPPORT
+	select USE_SWITCH_SUPPORTED
+	select USE_SWITCH
+	help
+	  STMicroelectronics STM8 architecture using the SDCC-compatible ABI.
+
 config ARCH_IS_SET
 	bool
 	help
@@ -342,7 +355,7 @@ config XIP
 	  option disabled.
 
 
-if ARC || ARM || ARM64 || X86 || RISCV || RX || OPENRISC || ARCH_POSIX || HEXAGON || TRICORE
+if ARC || ARM || ARM64 || X86 || RISCV || RX || OPENRISC || ARCH_POSIX || HEXAGON || TRICORE || STM8
 
 # Workaround for not being able to have commas in macro arguments
 DT_CHOSEN_Z_FLASH := zephyr,flash
@@ -365,7 +378,7 @@ config FLASH_BASE_ADDRESS
 	  normally set by the board's defconfig file and the user should generally
 	  avoid modifying it via the menu configuration.
 
-endif # ARM || ARM64 || ARC || X86 || RISCV || RX || OPENRISC || ARCH_POSIX || HEXAGON || TRICORE
+endif # Architectures with devicetree flash settings
 
 if ARCH_HAS_TRUSTED_EXECUTION
 
@@ -601,7 +614,7 @@ config ISR_TABLES_LOCAL_DECLARATION_SUPPORTED
 config ISR_TABLES_LOCAL_DECLARATION
 	bool "ISR tables created locally and placed by linker"
 	depends on ISR_TABLES_LOCAL_DECLARATION_SUPPORTED
-	depends on GEN_IRQ_VECTOR_TABLE
+	depends on GEN_IRQ_VECTOR_TABLE || GEN_SW_ISR_TABLE
 	help
 	  Enable new scheme of interrupt tables generation.
 	  This is totally different generator that would create tables entries locally

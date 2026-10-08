@@ -33,9 +33,11 @@ extern "C" {
  * Zephyr currently assumes the size of a couple standard types to simplify
  * print string formats. Let's make sure this doesn't change without notice.
  */
+#ifdef CONFIG_ENFORCE_ZEPHYR_STDINT
 BUILD_ASSERT(sizeof(int32_t) == sizeof(int));
-BUILD_ASSERT(sizeof(int64_t) == sizeof(long long));
 BUILD_ASSERT(sizeof(intptr_t) == sizeof(long));
+#endif
+BUILD_ASSERT(sizeof(int64_t) == sizeof(long long));
 
 /**
  * @brief Kernel APIs

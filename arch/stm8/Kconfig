@@ -1,0 +1,54 @@
+# SPDX-FileCopyrightText: Copyright (c) 2026 Andrei-Edward Popa
+# SPDX-License-Identifier: Apache-2.0
+
+menu "STM8 architecture options"
+	depends on STM8
+
+config STM8_CONSOLE_TRACE
+	bool "Capture console output in RAM"
+	help
+	  Retain the last 256 console bytes and a byte counter for debugger
+	  inspection during board bring-up. UART output is independent of this
+	  diagnostic trace.
+
+config ARCH
+	default "stm8"
+
+config XIP
+	default y
+
+config ENFORCE_ZEPHYR_STDINT
+	default n
+
+config LINKER_ITERABLE_SUBALIGN
+	default 1
+
+config ARCH_DEVICE_STATE_ALIGN
+	default 1
+
+config ISR_STACK_SIZE
+	default 1024
+
+config NUM_IRQS
+	default 30
+
+config NUM_IRQ_PRIO_LEVELS
+	int
+	default 3
+
+config GEN_ISR_TABLES
+	default y
+
+config GEN_IRQ_VECTOR_TABLE
+	default n
+
+config ISR_TABLES_LOCAL_DECLARATION
+	default y
+
+config ARCH_SW_ISR_TABLE_ALIGN
+	default 1
+
+config SYS_CLOCK_TICKS_PER_SEC
+	default 1000
+
+endmenu

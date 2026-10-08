@@ -541,8 +541,9 @@ do {                                                                    \
 
 #define GEN_OFFSET_EXTERN(name) extern const char name[]
 
+/* These linker roots use literal names, independent of the target symbol prefix. */
 #define GEN_ABS_SYM_BEGIN(name) \
-	EXTERN_C void name(void); \
+	EXTERN_C void name(void) __asm__(#name); \
 	void name(void)         \
 	{
 
@@ -644,6 +645,14 @@ do {                                                                    \
 		: "n"(value))
 
 #define GEN_ABSOLUTE_SYM_KCONFIG(name, value) __asm__(".globl " #name "\n.equ " #name ", " #value)
+
+#elif defined(CONFIG_STM8)
+#define GEN_ABSOLUTE_SYM(name, value) \
+	__asm__ volatile(".global\t" #name "\n\t.equ\t" #name ",%c0" \
+			 "\n\t.type\t" #name ",@object" : : "n"(value))
+
+#define GEN_ABSOLUTE_SYM_KCONFIG(name, value) \
+	__asm__(".global " #name "\n.equ " #name "," #value "\n.type " #name ",@object")
 
 #elif defined(CONFIG_TRICORE)
 #define GEN_ABSOLUTE_SYM(name, value)			\
