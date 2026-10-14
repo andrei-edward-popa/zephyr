@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2021 BayLibre, SAS
+ * Copyright (c) 2026 Andrei-Edward Popa
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -193,17 +194,18 @@ static size_t get_package_len(void *packaged)
 
 	uint8_t *buf = packaged;
 	uint8_t *start = buf;
-	unsigned int args_size, s_nbr, ros_nbr;
+	unsigned int args_size, s_nbr, ros_nbr, rws_nbr;
 
 	args_size = buf[0] * sizeof(int);
 	s_nbr     = buf[1];
 	ros_nbr   = buf[2];
+	rws_nbr   = buf[3];
 
 	/* Move beyond args. */
 	buf += args_size;
 
 	/* Move beyond read-only string indexes array. */
-	buf += ros_nbr;
+	buf += ros_nbr + 2 * rws_nbr;
 
 	/* Move beyond strings appended to the package. */
 	for (unsigned int i = 0; i < s_nbr; i++) {
@@ -956,8 +958,14 @@ int cbprintf_package_convert(void *in_packaged,
 	 */
 	if (!rw_cpy && !ro_cpy) {
 		if (cb) {
-			(void)cb(in_packaged, in_len, ctx);
-			(void)cb(NULL, 0, ctx);
+			rv = cb(in_packaged, in_len, ctx);
+			if (rv < 0) {
+				return rv;
+			}
+			rv = cb(NULL, 0, ctx);
+			if (rv < 0) {
+				return rv;
+			}
 		}
 		return in_len;
 	}
@@ -1113,7 +1121,10 @@ int cbprintf_package_convert(void *in_packaged,
 
 	/* Empty call (can be interpreted as flushing) */
 	if (cb) {
-		(void)cb(NULL, 0, ctx);
+		rv = cb(NULL, 0, ctx);
+		if (rv < 0) {
+			return rv;
+		}
 	}
 
 	return out_len;
