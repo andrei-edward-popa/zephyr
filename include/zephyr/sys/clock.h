@@ -107,10 +107,10 @@ typedef struct {
 #define HOUR_PER_DAY 24U
 
 /** number of microseconds per second */
-#define USEC_PER_SEC ((USEC_PER_MSEC) * (MSEC_PER_SEC))
+#define USEC_PER_SEC 1000000U
 
 /** number of nanoseconds per second */
-#define NSEC_PER_SEC ((NSEC_PER_USEC) * (USEC_PER_MSEC) * (MSEC_PER_SEC))
+#define NSEC_PER_SEC 1000000000U
 
 /** @} */
 
