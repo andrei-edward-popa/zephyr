@@ -848,7 +848,7 @@ do { \
 	Z_CBPRINTF_ON_STACK_ALLOC(_ros_pos_buf, _ros_cnt); \
 	uint8_t *_rws_buffer; \
 	Z_CBPRINTF_ON_STACK_ALLOC(_rws_buffer, 2 * _rws_cnt); \
-	size_t _pmax = !is_null_no_warn(buf) ? _inlen : INT32_MAX; \
+	size_t _pmax = !is_null_no_warn(buf) ? MIN((size_t)(_inlen), (size_t)INT_MAX) : INT_MAX; \
 	int _pkg_len = 0; \
 	int _total_len = 0; \
 	int _pkg_offset = (_align_offset); \

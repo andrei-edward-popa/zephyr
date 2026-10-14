@@ -14,6 +14,7 @@
 #include <zephyr/sys/cbprintf.h>
 #include <sys/types.h>
 #include <zephyr/sys/util.h>
+#include <zephyr/sys/math_extras.h>
 #include <zephyr/sys/__assert.h>
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(cbprintf_package, CONFIG_CBPRINTF_PACKAGE_LOG_LEVEL);
@@ -929,7 +930,6 @@ int cbprintf_package_convert(void *in_packaged,
 	__ASSERT_NO_MSG(in_packaged != NULL);
 
 	uint8_t *buf = in_packaged;
-	uint32_t *buf32 = in_packaged;
 	unsigned int args_size, ros_nbr, rws_nbr;
 	bool rw_cpy;
 	bool ro_cpy;
@@ -974,7 +974,7 @@ int cbprintf_package_convert(void *in_packaged,
 	/* Pointer to array with string locations. Array starts with read-only
 	 * string locations.
 	 */
-	const char *fmt = *(const char **)(buf + sizeof(void *));
+	const char *fmt = ((struct cbprintf_package_hdr_ext *)in_packaged)->fmt;
 	uint8_t *rw_str_pos = &buf[args_size + ros_nbr];
 	uint32_t keep_loc_mask;
 	uint32_t append_mask;
@@ -1012,7 +1012,7 @@ int cbprintf_package_convert(void *in_packaged,
 	for (unsigned int i = 0; i < rws_nbr; i++) {
 		uint8_t arg_idx = *rw_str_pos++;
 		uint8_t arg_pos = *rw_str_pos++;
-		const char *str = *(const char **)&buf32[arg_pos];
+		const char *str = *(const char **)&buf[arg_pos * sizeof(int)];
 		bool is_ro = ptr_in_rodata(str);
 
 		if (IS_ENABLED(CONFIG_CBPRINTF_CONVERT_CHECK_PTR) && cb && is_ptr(fmt, arg_idx)) {
@@ -1061,7 +1061,7 @@ int cbprintf_package_convert(void *in_packaged,
 
 	/* Copy read-only string locations. */
 	while (keep_loc_mask != 0) {
-		uint32_t bit = __builtin_ctz(keep_loc_mask);
+		uint32_t bit = u32_count_trailing_zeros(keep_loc_mask);
 		uint8_t loc = loc_pos[bit];
 
 		keep_loc_mask &= ~BIT(bit);
@@ -1078,9 +1078,9 @@ int cbprintf_package_convert(void *in_packaged,
 
 	/* Copy read-write string locations. */
 	while (append_mask != 0) {
-		uint32_t bit = __builtin_ctz(append_mask);
+		uint32_t bit = u32_count_trailing_zeros(append_mask);
 		uint8_t loc = loc_pos[bit];
-		const char *str = *(const char **)&buf32[loc];
+		const char *str = *(const char **)&buf[loc * sizeof(int)];
 		int len = 0;
 
 		append_mask &= ~BIT(bit);

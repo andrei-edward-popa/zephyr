@@ -30,7 +30,7 @@
  * @brief cbprintf package descriptor.
  */
 struct cbprintf_package_desc {
-	/** Package length (in 32 bit words) */
+	/** Package length in units of sizeof(int). */
 	uint8_t len;
 
 	/** Number of appended strings in the package. */
