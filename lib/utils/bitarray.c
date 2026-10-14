@@ -198,7 +198,7 @@ static void set_region(sys_bitarray_t *bitarray, size_t offset,
 			bitarray->bundles[bd->sidx] |= bd->smask;
 			bitarray->bundles[bd->eidx] |= bd->emask;
 			for (idx = bd->sidx + 1; idx < bd->eidx; idx++) {
-				bitarray->bundles[idx] = ~0U;
+				bitarray->bundles[idx] = UINT32_MAX;
 			}
 		} else {
 			bitarray->bundles[bd->sidx] &= ~bd->smask;
