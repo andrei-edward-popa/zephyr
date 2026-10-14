@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2010, 2013-2014 Wind River Systems, Inc.
+ * Copyright (c) 2026 Andrei-Edward Popa
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -112,6 +113,18 @@ static int char_out(int c, void *ctx_p)
 	return _char_out(c);
 }
 
+#ifdef CONFIG_PICOLIBC
+static int picolibc_char_out(char c, FILE *stream)
+{
+	return char_out((unsigned char)c, stream);
+}
+
+static int picolibc_buf_char_out(char c, FILE *stream)
+{
+	return buf_char_out((unsigned char)c, stream);
+}
+#endif
+
 /*
  * Format straight to the platform's character output hook, through a
  * private unbuffered stream. Never stdout, never the logging subsystem,
@@ -120,8 +133,7 @@ static int char_out(int c, void *ctx_p)
 static void vprintk_core(const char *fmt, va_list ap)
 {
 #ifdef CONFIG_PICOLIBC
-	FILE console = FDEV_SETUP_STREAM((int(*)(char, FILE *))char_out,
-					 NULL, NULL, _FDEV_SETUP_WRITE);
+	FILE console = FDEV_SETUP_STREAM(picolibc_char_out, NULL, NULL, _FDEV_SETUP_WRITE);
 	(void) vfprintf(&console, fmt, ap);
 #else
 	cbvprintf(char_out, NULL, fmt, ap);
@@ -137,8 +149,7 @@ static void vprintk_user(const char *fmt, va_list ap)
 {
 	struct buf_out_context ctx = {
 #ifdef CONFIG_PICOLIBC
-		.file = FDEV_SETUP_STREAM((int(*)(char, FILE *))buf_char_out,
-					  NULL, NULL, _FDEV_SETUP_WRITE),
+		.file = FDEV_SETUP_STREAM(picolibc_buf_char_out, NULL, NULL, _FDEV_SETUP_WRITE),
 #else
 		0
 #endif
