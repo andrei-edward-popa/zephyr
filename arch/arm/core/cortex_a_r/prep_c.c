@@ -102,8 +102,8 @@ FUNC_NORETURN void z_prep_c(void)
 {
 	soc_prep_hook();
 
-	/* Initialize tpidruro with our struct _cpu instance address */
-	write_tpidruro((uintptr_t)&_kernel.cpus[0]);
+	/* Initialize tpidrprw with our struct _cpu instance address */
+	write_tpidrprw((uintptr_t)&_kernel.cpus[0]);
 
 #if defined(CONFIG_CPU_HAS_FPU)
 	z_arm_floating_point_init();

@@ -6,7 +6,7 @@
 #ifndef _MACRO_PRIV_INC_
 #define _MACRO_PRIV_INC_
 
-#include <zephyr/arch/arm/cortex_a_r/tpidruro.h>
+#include <zephyr/arch/arm/cortex_a_r/tpidrprw.h>
 
 /*
  * Get CPU id
@@ -43,8 +43,8 @@
 	/*
          * Get CPU pointer.
 	 */
-	mrc p15, 0, \rreg0, c13, c0, 3
-        and \rreg0, #TPIDRURO_CURR_CPU
+	mrc p15, 0, \rreg0, c13, c0, 4
+        and \rreg0, #TPIDRPRW_CURR_CPU
 .endm
 
 .macro z_arm_cortex_ar_enter_exc

@@ -206,8 +206,8 @@ void arch_secondary_cpu_init(void)
 
 	__ASSERT(arm_cpu_boot_params.mpid == MPIDR_TO_CORE(GET_MPIDR()), "");
 
-	/* Initialize tpidrro_el0 with our struct _cpu instance address */
-	write_tpidruro((uintptr_t)&_kernel.cpus[cpu_num]);
+	/* Initialize tpidrprw with our struct _cpu instance address */
+	write_tpidrprw((uintptr_t)&_kernel.cpus[cpu_num]);
 
 #ifdef CONFIG_ARM_MPU
 

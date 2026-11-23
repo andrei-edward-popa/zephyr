@@ -10,11 +10,11 @@
 #include <zephyr/kernel_structs.h>
 #if defined(CONFIG_CPU_AARCH32_CORTEX_R) || defined(CONFIG_CPU_AARCH32_CORTEX_A)
 #include <zephyr/arch/arm/cortex_a_r/lib_helpers.h>
-#include <zephyr/arch/arm/cortex_a_r/tpidruro.h>
+#include <zephyr/arch/arm/cortex_a_r/tpidrprw.h>
 
 static ALWAYS_INLINE _cpu_t *arch_curr_cpu(void)
 {
-	return (_cpu_t *)(read_tpidruro() & TPIDRURO_CURR_CPU);
+	return (_cpu_t *)(read_tpidrprw() & TPIDRPRW_CURR_CPU);
 }
 #else
 
