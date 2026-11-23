@@ -122,11 +122,11 @@ out_fp_inactive:
     adds r4, r2, r4
     ldr r0, [r4]
 
-    /* Store TLS pointer in the "Process ID" register.
-     * TPIDRURW is used as a base pointer to all
-     * thread variables with offsets added by toolchain.
+    /* Store TLS pointer in TPIDRURO, the thread pointer of the
+     * AArch32 TLS ABI. It is the base pointer to all thread
+     * variables with offsets added by toolchain.
      */
-    mcr p15, 0, r0, c13, c0, 2
+    mcr p15, 0, r0, c13, c0, 3
 #endif
 
 #if defined(CONFIG_ARM_STORE_EXC_RETURN)

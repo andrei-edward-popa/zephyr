@@ -62,11 +62,11 @@ SECTION_FUNC(TEXT, z_arm_context_switch)
 	/* Grab the TLS pointer */
 	ldr r3, [r0, #_thread_offset_to_tls]
 
-	/* Store TLS pointer in the "Process ID" register.
-	 * This register is used as a base pointer to all
-	 * thread variables with offsets added by toolchain.
+	/* Store TLS pointer in TPIDRURO, the thread pointer of the
+	 * AArch32 TLS ABI. It is the base pointer to all thread
+	 * variables with offsets added by toolchain.
 	 */
-	mcr p15, 0, r3, c13, c0, 2
+	mcr p15, 0, r3, c13, c0, 3
 #endif
 
 	ldr r2, =_thread_offset_to_callee_saved
